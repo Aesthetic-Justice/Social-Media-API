@@ -2,21 +2,21 @@ const { Schema, Types } = require(`mongoose`);
 
 const reactionSchema = new Schema(
     {
-        reactionId:{
+        reactionId: {
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId()
         },
-        reactionBody:{
+        reactionBody: {
             type: String,
-            required:true,
-            maxlength:280
+            required: true,
+            maxlength: 280
         },
-        username:{
-            type:String,
-            required:true
+        username: {
+            type: String,
+            required: true
         },
-        createdAt:{
-            type:Date,
+        createdAt: {
+            type: Date,
             default: Date.now,
             get: (date) => {
                 return date.toISOString().split("T")[0]
@@ -25,6 +25,7 @@ const reactionSchema = new Schema(
     },
     {
         toJSON: {
+            getters: true,
             virtuals: true
         },
         id: false
