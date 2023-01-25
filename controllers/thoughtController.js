@@ -1,7 +1,7 @@
 const { Thought, User } = require(`../models`);
 
 module.exports = {
-    getThoughtsAll(req, res) {
+    getThoughts(req, res) {
         Thought.find()
             .then((thoughts) => res.json(thoughts))
             .catch((err) => res.status(500).json(err));
@@ -48,7 +48,7 @@ module.exports = {
     createReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $addToSet: { reactions: req.body } },
+            { $addToSet: { reactions: req.params.reactionId } },
             { runValidators: true, new: true })
             .then((thought) =>
                 !thought
