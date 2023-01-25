@@ -1,10 +1,10 @@
-const { User, Thought } = require(`../models`);
+const { User, Thought } = require(`../models/index`);
 
 module.exports = {
     getUsers(req, res) {
         User.find()
             .then((users) => res.json(users))
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json({message: err}));
     },
     getUser(req, res) {
         User.findOne({ _id: req.params.userId })
@@ -20,7 +20,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     updateUser(req, res) {
-        User.findOneAndUpdate({ _id: req.params.userId }, req.body,{new:true})
+        User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: `No user with matching ID found.` })
@@ -39,22 +39,22 @@ module.exports = {
     addFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: { friends: req.params.friendId }},
-            { runValidators: true, new:true})
+            { $addToSet: { friends: req.params.friendId } },
+            { runValidators: true, new: true })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: `No user with matching ID found.` })
                     : res.json(user))
             .catch((err) => res.status(500).json(err));
     },
-    deleteFriend(req,res){
+    deleteFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friends: req.params.friendId }},
-            { runValidators: true, new:true})
-            .then((user) => 
+            { $pull: { friends: req.params.friendId } },
+            { runValidators: true, new: true })
+            .then((user) =>
                 !user
-                    ? res.status(404).json({ message: `No user with matching ID found.`})
+                    ? res.status(404).json({ message: `No user with matching ID found.` })
                     : res.json(user))
             .catch((err) => res.status(500).json(err));
     }
