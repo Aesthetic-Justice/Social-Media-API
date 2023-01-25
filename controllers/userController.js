@@ -1,7 +1,7 @@
 const { User, Thought } = require(`../models`);
 
 module.exports = {
-    getUsersAll(req, res) {
+    getUsers(req, res) {
         User.find()
             .then((users) => res.json(users))
             .catch((err) => res.status(500).json(err));
@@ -39,7 +39,7 @@ module.exports = {
     addFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: { friends: req.body }},
+            { $addToSet: { friends: req.params.friendId }},
             { runValidators: true, new:true})
             .then((user) =>
                 !user
@@ -47,10 +47,10 @@ module.exports = {
                     : res.json(user))
             .catch((err) => res.status(500).json(err));
     },
-    removeFriend(req,res){
+    deleteFriend(req,res){
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friends: req.body }},
+            { $pull: { friends: req.params.friendId }},
             { runValidators: true, new:true})
             .then((user) => 
                 !user
