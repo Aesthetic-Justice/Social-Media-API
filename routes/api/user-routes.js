@@ -11,11 +11,11 @@ const {
 
 // /api/users
 router.route(`/`)
-    .get(getUsers);//GET all users
+    .get(getUsers)//GET all users
+    .post(createUser);//POST a new user:
 
 router.route(`/:userId`)
     .get(getUser)//GET a single user by its _id and populated thought and friend data
-    .post(createUser)//POST a new user:;
     .put(updateUser)//PUT to update a user by its _id
     .delete(deleteUser);//DELETE to remove user by its _id
 
