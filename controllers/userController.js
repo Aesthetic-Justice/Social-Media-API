@@ -2,9 +2,10 @@ const { User, Thought } = require(`../models/index`);
 
 module.exports = {
     getUsers(req, res) {
-        User.find()
-            .then((users) => res.json(users))
-            .catch((err) => res.status(500).json({message: err}));
+        User.find((err, users) =>{
+            if(err) res.status(500).json(err);
+            res.json(users)
+        });
     },
     getUser(req, res) {
         User.findOne({ _id: req.params.userId })
